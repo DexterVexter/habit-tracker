@@ -1,0 +1,13 @@
+{% extends "base.html" %} {% block title %}Change Habit{% endblock %} 
+{% block content %}
+<form method="POST">
+    <h3 align="center"> Change Habit </h3>
+    <div class="form group">
+        <input type="text" id="name" name="name" class="form-control" placeholder="Enter new habit name"/>
+    </div>
+</br>
+<div align="center">
+    <button type="submit" class="btn btn-primary">Change habit</button>
+</div>
+</form>
+{% endblock %}

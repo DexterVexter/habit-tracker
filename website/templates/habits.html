@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}Habits{% endblock %}
+{% block content %}
+
+</br>
+<h3 align="center">Habits</h3>
+</br>
+<div align="center">
+    <button type="button" class="btn btn-primary" onclick="window.location.href='/add-habit'">Add habit</button>
+</div>
+</br>
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Date Created</th>
+                <th scope="col">Consecutive Days</th>
+                <th scope="col">last fulfillment</th>
+                <th scope="col">Completed</th>  <!-- Neue Spalte für die Checkbox -->
+                <th scope="col">Delete</th>
+                <th scope="col">Change</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for habit in habits %}
+            {% if habit.completed==False%}
+            <tr>
+                <td>{{ habit.name }}</td>
+                <td>{{ habit.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                <td>{{ habit.consecutive_days }}</td>
+                <td>{{ habit.day_of_fulfillment }}</td>
+                <td><input type="checkbox" name="completed" value="{{ habit.id }}"></td>  <!-- Checkbox für jede Gewohnheit -->
+                <td>
+                    <a href="{{ url_for('views.delete_habit', habit_id=habit.id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this habit?')">Delete</a>
+                </td>
+                <td>
+                    <a href="{{ url_for('views.change_habit', habit_id=habit.id) }}" class="btn btn-warning">Change</a>
+                <td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <div align="center">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</form>
+</br>
+</br>
+    <h3 align="center">Done</h3>
+    <br>
+    <div align="center"> <!-- Hinzugefügt, um die Tabelle zentriert anzuzeigen -->
+        <form method="post">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date Created</th>
+                        <th scope="col">Consecutive Days</th>
+                        <th scope="col">last fulfillment</th>
+                        <th scope="col">Delete</th>
+                        <th scope="col">Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for habit in habits %}
+                    {% if habit.completed==True %}
+                    <tr>
+                        <td>{{ habit.name }}</td>
+                        <td>{{ habit.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <td>{{ habit.consecutive_days }}</td>
+                        <td>{{ habit.day_of_fulfillment }}</td>
+                        <td><a href="{{ url_for('views.delete_habit', habit_id=habit.id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this habit?')">Delete</a></td>
+                        <td>
+                            <a href="{{ url_for('views.change_habit', habit_id=habit.id) }}" class="btn btn-warning">Change</a>
+                        <td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </form>
+    </div> <!-- Hinzugefügt, um die Tabelle zentriert anzuzeigen -->
+    
+{% endblock %}
+
